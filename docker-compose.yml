@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  postgres:
+    image: postgres:14.6
+    container_name: pgdbcontainer
+    networks:
+      static-network:
+        ipv4_address: 172.80.0.23
+    ports:
+      - "8888:5432"
+    environment:
+      POSTGRES_DB: testDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root 
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+networks:
+  static-network:
+    driver: bridge
+    name: pact-network
+    ipam:
+      config:
+        - subnet: 172.80.0.0/16
+          gateway: 172.80.0.1
